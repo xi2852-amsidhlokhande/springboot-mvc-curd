@@ -52,19 +52,26 @@ public class PersonController {
         return personService.getPersonById(id);
     }
 
-    @Operation(summary = "This api is exposed to see the person details using person id", description = "Get Person by person id")
+    @Operation(summary = "This api is exposed to update the person details", description = "Update person by person id")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Get Person", content = {
+            @ApiResponse(responseCode = "200", description = "Update Person", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = PersonDto.class))
             })
     })
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonDto updatePerson(@PathVariable Integer id, @RequestBody PersonDto personDto) {
         log.info("Update person withId {} and details {}", id, personDto);
         return personService.updatePerson(id, personDto);
     }
 
+    @Operation(summary = "This api is exposed to delete the person using person id", description = "Delete person by person id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Delete Person", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = String.class))
+            })
+    })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deletePersonByPersonId(@PathVariable Integer id) {
         log.info("Deleting person with person Id {}", id);
@@ -73,6 +80,13 @@ public class PersonController {
     }
 
 
+    @Operation(summary = "This api is exposed to get all person details", description = "Get all person details")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Get all persons", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = PersonDto.class))
+            })
+    })
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PersonDto> getPersons() {
         log.info("Getting all the persons");
